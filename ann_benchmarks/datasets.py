@@ -56,22 +56,25 @@ def get_dataset(dataset_name: str) -> Tuple[h5py.File, int]:
         Tuple[h5py.File, int]: A tuple containing the opened HDF5 file object and
             the dimension of the dataset.
     """
+    
+    """
     hdf5_filename = get_dataset_fn(dataset_name)
     try:
-        dataset_url = f"https://ann-benchmarks.com/{dataset_name}.hdf5"
-        download(dataset_url, hdf5_filename)
+        #dataset_url = f"https://ann-benchmarks.com/{dataset_name}.hdf5"
+        #download(dataset_url, hdf5_filename)
     except:
         traceback.print_exc()
         print(f"Cannot download {dataset_url}")
         if dataset_name in DATASETS:
             print("Creating dataset locally")
             DATASETS[dataset_name](hdf5_filename)
-
+    """
+    hdf5_filename = f"data/dataset_imdbHQ_f0_k1.h5"
     hdf5_file = h5py.File(hdf5_filename, "r")
-
+    
     # here for backward compatibility, to ensure old datasets can still be used with newer versions
     # cast to integer because the json parser (later on) cannot interpret numpy integers
-    dimension = int(hdf5_file.attrs["dimension"]) if "dimension" in hdf5_file.attrs else len(hdf5_file["train"][0])
+    dimension = int(hdf5_file.attrs["dimension"]) if "dimension" in hdf5_file.attrs else len(hdf5_file["train"][0])    
     return hdf5_file, dimension
 
 
