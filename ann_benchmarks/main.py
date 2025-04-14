@@ -85,7 +85,7 @@ def parse_arguments() -> argparse.Namespace:
         choices=DATASETS.keys(),
     )
     parser.add_argument(
-        "-k", "--count", default=10, type=positive_int, help="the number of near neighbours to search for"
+        "-k", "--count", default=1, type=positive_int, help="the number of near neighbours to search for"
     )
     parser.add_argument(
         "--definitions", metavar="FOLDER", help="base directory of algorithms. Algorithm definitions expected at 'FOLDER/*/config.yml'", default="ann_benchmarks/algorithms"
@@ -308,8 +308,9 @@ def main():
 
     if os.path.exists(INDEX_DIR):
         shutil.rmtree(INDEX_DIR)
-
-    dataset, dimension = get_dataset(args.dataset)
+    #print(args.count)
+    #raise NameError
+    dataset, dimension = get_dataset(args.dataset, args.count)
     definitions: List[Definition] = get_definitions(
         dimension=dimension,
         point_type=dataset.attrs.get("point_type", "float"),
@@ -318,14 +319,14 @@ def main():
         base_dir=args.definitions,
     )
     random.shuffle(definitions)
-
+    """
     definitions = filter_already_run_definitions(definitions, 
         dataset=args.dataset, 
         count=args.count, 
         batch=args.batch, 
         force=args.force,
     )
-
+    """
     if args.algorithm:
         logger.info(f"running only {args.algorithm}")
         definitions = [d for d in definitions if d.algorithm == args.algorithm]

@@ -148,7 +148,7 @@ def run_individual_query(algo: BaseANN, X_train: numpy.array, X_test: numpy.arra
     return (attrs, results)
 
 
-def load_and_transform_dataset(dataset_name: str) -> Tuple[
+def load_and_transform_dataset(dataset_name: str, k) -> Tuple[
         Union[numpy.ndarray, List[numpy.ndarray]],
         Union[numpy.ndarray, List[numpy.ndarray]],
         str]:
@@ -160,7 +160,7 @@ def load_and_transform_dataset(dataset_name: str) -> Tuple[
     Returns:
         Tuple: Transformed datasets.
     """
-    D, dimension = get_dataset(dataset_name)
+    D, dimension = get_dataset(dataset_name, k)
     X_train = numpy.array(D["train"])
     X_test = numpy.array(D["test"])
     distance = D.attrs["distance"]
@@ -212,7 +212,7 @@ error: query argument groups have been specified for {definition.module}.{defini
 algorithm instantiated from it does not implement the set_query_arguments \
 function"""
 
-    X_train, X_test, distance = load_and_transform_dataset(dataset_name)
+    X_train, X_test, distance = load_and_transform_dataset(dataset_name, count)
 
     try:
         if hasattr(algo, "supports_prepared_queries"):

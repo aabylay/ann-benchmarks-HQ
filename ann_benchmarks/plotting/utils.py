@@ -50,6 +50,8 @@ def compute_metrics(true_nn_distances, res, metric_1, metric_2, recompute=False)
         if recompute and "metrics" in run:
             del run["metrics"]
         metrics_cache = get_or_create_metrics(run)
+        
+        print(metrics)
 
         metric_1_value = metrics[metric_1]["function"](
             true_nn_distances, run_distances, metrics_cache, times, properties

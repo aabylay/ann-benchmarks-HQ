@@ -4,6 +4,7 @@ import numpy as np
 
 
 def knn_threshold(data, count, epsilon):
+    print(len(data), count, epsilon)
     return data[count - 1] + epsilon
 
 
@@ -24,6 +25,7 @@ def get_recall_values(dataset_distances, run_distances, count, threshold, epsilo
 
 
 def knn(dataset_distances, run_distances, count, metrics, epsilon=1e-3):
+    #print(dataset_distances, run_distances, metrics)
     if "knn" not in metrics:
         print("Computing knn metrics")
         knn_metrics = metrics.create_group("knn")
@@ -33,6 +35,7 @@ def knn(dataset_distances, run_distances, count, metrics, epsilon=1e-3):
         knn_metrics["recalls"] = recalls
     else:
         print("Found cached result")
+        # print(metrics["knn"]["mean"], type(metrics["knn"]))
     return metrics["knn"]
 
 
@@ -102,7 +105,6 @@ def candidates(queries, attrs):
 
 def dist_computations(queries, attrs):
     return attrs.get("dist_comps", 0) / (attrs["run_count"] * len(queries))
-
 
 all_metrics = {
     "k-nn": {

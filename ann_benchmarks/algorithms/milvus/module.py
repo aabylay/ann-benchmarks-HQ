@@ -126,11 +126,12 @@ class Milvus(BaseANN):
             data = [v],
             anns_field = "vector",
             param = self.search_params,
+            filter_expr = f"avgRating > 6.0" # added for queries with filters
             limit = n,
             output_fields=["id"]
         )
         ids = [r.entity.get("id") for r in results[0]]
-        return ids
+        return ids #
 
     def done(self):
         self.collection.release()
